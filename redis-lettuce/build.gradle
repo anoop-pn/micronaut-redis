@@ -1,5 +1,24 @@
 plugins {
     id "io.micronaut.build.internal.module"
+    id 'org.checkerframework' version '0.6.16'
+}
+
+apply plugin: 'org.checkerframework'
+
+repositories {
+    // Use Maven Central for resolving dependencies.
+    mavenCentral()
+    mavenLocal()
+}
+
+checkerFramework {
+    checkers = [
+            'edu.ucr.cs.riple.taint.ucrtainting.UCRTaintingChecker',
+    ]
+    extraJavacArgs = [
+            '-Awarns',
+            '-AstubDebug'
+    ]
 }
 
 dependencies {
@@ -31,4 +50,6 @@ dependencies {
     testRuntimeOnly libs.micronaut.http.server.netty
     testImplementation libs.micronaut.http.client
     testImplementation libs.redis.embedded
+    annotationProcessor 'edu.ucr.cs.riple.taint:ucrtainting-checker:0.1'
+    implementation 'edu.ucr.cs.riple.taint:ucrtainting-checker:0.1'
 }
